@@ -2,39 +2,46 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ChevronUp, Calendar } from "lucide-react";
+import { ChevronDown, ChevronUp, Calendar, Trash2 } from "lucide-react";
 import { RoadmapDay } from "@/data/roadmapData";
 import RoadmapCard from "./RoadmapCard";
 import { cn } from "@/lib/utils";
 import { useRef, useEffect } from "react";
+import { useProgress } from "@/hooks/useProgress";
 
 interface WeekGroupProps {
+  roadmapId: string;
   weekNumber: number;
   days: RoadmapDay[];
   completedDays: number[];
   bookmarkedDays: number[];
-  onToggleDay: (id: number) => void;
-  onToggleBookmark: (id: number) => void;
   isOpen: boolean;
   onToggle: () => void;
+  readOnly?: boolean;
 }
 
-export default function WeekGroup({ weekNumber, days, completedDays, bookmarkedDays, onToggleDay, onToggleBookmark, isOpen, onToggle }: WeekGroupProps) {
+export default function WeekGroup({ roadmapId, weekNumber, days, completedDays, bookmarkedDays, isOpen, onToggle, readOnly = false }: WeekGroupProps) {
   const groupRef = useRef<HTMLDivElement>(null);
+  const { deleteWeek } = useProgress();
 
   useEffect(() => {
     if (isOpen && groupRef.current) {
-      // Small timeout to allow the accordion animation to start
       setTimeout(() => {
         groupRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 100);
     }
   }, [isOpen]);
 
-  // Calculate week progress
   const completedInWeek = days.filter(d => completedDays.includes(d.id)).length;
   const weekProgress = Math.round((completedInWeek / days.length) * 100);
   const isWeekCompleted = completedInWeek === days.length;
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (window.confirm(`Are you sure you want to delete Week ${weekNumber}? All days in this week will be removed.`)) {
+      deleteWeek(roadmapId, days.map(d => d.id));
+    }
+  };
 
   return (
     <div ref={groupRef} className="mb-6 w-full scroll-mt-24">
@@ -63,7 +70,7 @@ export default function WeekGroup({ weekNumber, days, completedDays, bookmarkedD
           </div>
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 sm:gap-6">
           <div className="hidden sm:flex flex-col items-end">
             <span className={cn(
               "text-sm font-bold",
@@ -74,8 +81,19 @@ export default function WeekGroup({ weekNumber, days, completedDays, bookmarkedD
             <span className="text-xs text-slate-500">{completedInWeek} / {days.length} days</span>
           </div>
           
-          <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0">
-            {isOpen ? <ChevronUp className="w-5 h-5 text-white/70" /> : <ChevronDown className="w-5 h-5 text-white/70" />}
+          <div className="flex items-center gap-2">
+            {!readOnly && (
+              <div 
+                onClick={handleDelete}
+                className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center shrink-0 hover:bg-red-500/20 transition-colors text-red-400"
+                title="Delete Week"
+              >
+                <Trash2 className="w-5 h-5" />
+              </div>
+            )}
+            <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0">
+              {isOpen ? <ChevronUp className="w-5 h-5 text-white/70" /> : <ChevronDown className="w-5 h-5 text-white/70" />}
+            </div>
           </div>
         </div>
       </button>
@@ -90,7 +108,6 @@ export default function WeekGroup({ weekNumber, days, completedDays, bookmarkedD
             className="overflow-hidden"
           >
             <div className="pt-8 pb-4 relative">
-              {/* Vertical line connecting days */}
               <div className="absolute left-6 md:left-8 top-4 bottom-4 w-[2px] bg-gradient-to-b from-blue-500/0 via-blue-500/50 to-emerald-500/0 z-0 hidden md:block">
                 <div className="absolute top-0 bottom-0 left-0 w-full bg-white/20 blur-[2px]" />
               </div>
@@ -99,12 +116,12 @@ export default function WeekGroup({ weekNumber, days, completedDays, bookmarkedD
                 {days.map((dayData, index) => (
                   <RoadmapCard
                     key={dayData.id}
+                    roadmapId={roadmapId}
                     data={dayData}
                     index={index}
                     isCompleted={completedDays.includes(dayData.id)}
                     isBookmarked={bookmarkedDays.includes(dayData.id)}
-                    onToggle={onToggleDay}
-                    onToggleBookmark={onToggleBookmark}
+                    readOnly={readOnly}
                   />
                 ))}
               </div>

@@ -41,8 +41,8 @@ export default function SettingsPage() {
               )}
             >
               <div className={cn(
-                "w-5 h-5 bg-white rounded-full absolute top-0.5 transition-all shadow-sm",
-                darkMode ? "left-6.5 translate-x-[22px]" : "left-0.5"
+                "w-5 h-5 bg-white rounded-full absolute top-0.5 left-0.5 transition-all shadow-sm",
+                darkMode ? "translate-x-6" : "translate-x-0"
               )} />
             </button>
           </div>
@@ -71,8 +71,8 @@ export default function SettingsPage() {
                 )}
               >
                 <div className={cn(
-                  "w-5 h-5 bg-white rounded-full absolute top-0.5 transition-all shadow-sm",
-                  emailNotifs ? "left-6.5 translate-x-[22px]" : "left-0.5"
+                  "w-5 h-5 bg-white rounded-full absolute top-0.5 left-0.5 transition-all shadow-sm",
+                  emailNotifs ? "translate-x-6" : "translate-x-0"
                 )} />
               </button>
             </div>
@@ -90,8 +90,8 @@ export default function SettingsPage() {
                 )}
               >
                 <div className={cn(
-                  "w-5 h-5 bg-white rounded-full absolute top-0.5 transition-all shadow-sm",
-                  pushNotifs ? "left-6.5 translate-x-[22px]" : "left-0.5"
+                  "w-5 h-5 bg-white rounded-full absolute top-0.5 left-0.5 transition-all shadow-sm",
+                  pushNotifs ? "translate-x-6" : "translate-x-0"
                 )} />
               </button>
             </div>
@@ -120,8 +120,8 @@ export default function SettingsPage() {
               )}
             >
               <div className={cn(
-                "w-5 h-5 bg-white rounded-full absolute top-0.5 transition-all shadow-sm",
-                publicProfile ? "left-6.5 translate-x-[22px]" : "left-0.5"
+                "w-5 h-5 bg-white rounded-full absolute top-0.5 left-0.5 transition-all shadow-sm",
+                publicProfile ? "translate-x-6" : "translate-x-0"
               )} />
             </button>
           </div>

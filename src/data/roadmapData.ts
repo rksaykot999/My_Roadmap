@@ -1,10 +1,19 @@
+export interface RoadmapSection {
+  id: string;
+  title: string;
+  content: string;
+}
+
 export interface RoadmapDay {
   id: number;
   day: string;
-  frontend: string;
-  backend: string;
-  aiTools: string;
-  deliverable: string;
+  title?: string;
+  sections?: RoadmapSection[];
+  // Legacy fields
+  frontend?: string;
+  backend?: string;
+  aiTools?: string;
+  deliverable?: string;
 }
 
 export const roadmapData: RoadmapDay[] = [

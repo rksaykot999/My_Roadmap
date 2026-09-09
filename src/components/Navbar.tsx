@@ -5,7 +5,6 @@ import { LogIn, Map, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect, useState, useRef } from "react";
 import { useProgress } from "@/hooks/useProgress";
-import { roadmapData } from "@/data/roadmapData";
 import { motion, AnimatePresence } from "framer-motion";
 import { auth, googleProvider } from "@/lib/firebase";
 import { signInWithPopup, signOut, User } from "firebase/auth";
@@ -15,14 +14,14 @@ export default function Navbar() {
   const [user, setUser] = useState<User | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  
-  const { completedDays, isLoaded, getProgressPercentage } = useProgress();
+
+  const { completedDays, isLoaded, getProgressPercentage, activeRoadmapId } = useProgress();
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    
+
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
@@ -31,7 +30,7 @@ export default function Navbar() {
 
     window.addEventListener("scroll", handleScroll);
     document.addEventListener("mousedown", handleClickOutside);
-    
+
     // Auth listener
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
       setUser(currentUser);
@@ -61,9 +60,8 @@ export default function Navbar() {
     }
   };
 
-  const percentage = getProgressPercentage(roadmapData.length);
+  const percentage = activeRoadmapId ? getProgressPercentage(activeRoadmapId) : 0;
   const totalCompleted = completedDays.length;
-  const totalDays = roadmapData.length;
 
   return (
     <nav
@@ -81,7 +79,7 @@ export default function Navbar() {
             <Map className="w-5 h-5 text-blue-400" />
           </div>
           <span className="font-bold text-base sm:text-lg text-white tracking-tight">
-            My<span className="text-blue-400">Reminder</span>
+            My<span className="text-blue-400">Roadmap</span>
           </span>
         </Link>
 
@@ -92,11 +90,8 @@ export default function Navbar() {
               <span className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">
                 Progress
               </span>
-              <span className="text-[10px] text-slate-400">
-                {totalCompleted} / {totalDays} days
-              </span>
             </div>
-            
+
             <div className="h-2 sm:h-2.5 w-full bg-slate-800 rounded-full overflow-hidden flex-1 border border-slate-700/50 relative">
               <motion.div
                 initial={{ width: 0 }}
@@ -115,14 +110,14 @@ export default function Navbar() {
         <div className="flex items-center gap-4 shrink-0">
           {user ? (
             <div className="relative" ref={dropdownRef}>
-              <button 
+              <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="focus:outline-none border border-white/20 rounded-full overflow-hidden w-9 h-9"
               >
-                <img 
-                  src={user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName || 'User'}&background=random`} 
-                  alt="Profile" 
-                  className="w-full h-full object-cover" 
+                <img
+                  src={user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName || 'User'}&background=random`}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
                   onError={(e) => {
                     // Fallback to UI avatars if Google photo fails
@@ -130,10 +125,10 @@ export default function Navbar() {
                   }}
                 />
               </button>
-              
+
               <AnimatePresence>
                 {isDropdownOpen && (
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
@@ -144,38 +139,38 @@ export default function Navbar() {
                       <p className="text-sm font-semibold text-white truncate">{user.displayName || "User"}</p>
                       <p className="text-xs text-slate-400 truncate">{user.email}</p>
                     </div>
-                    
-                    <Link 
-                      href="/dashboard" 
+
+                    <Link
+                      href="/dashboard"
                       onClick={() => setIsDropdownOpen(false)}
                       className="block px-4 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition-colors"
                     >
                       Dashboard
                     </Link>
-                    <Link 
-                      href="/dashboard/profile" 
+                    <Link
+                      href="/dashboard/profile"
                       onClick={() => setIsDropdownOpen(false)}
                       className="block px-4 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition-colors"
                     >
                       My Profile
                     </Link>
-                    <Link 
-                      href="/dashboard/settings" 
+                    <Link
+                      href="/dashboard/settings"
                       onClick={() => setIsDropdownOpen(false)}
                       className="block px-4 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition-colors"
                     >
                       Settings
                     </Link>
-                    <Link 
-                      href="/privacy" 
+                    <Link
+                      href="/privacy"
                       onClick={() => setIsDropdownOpen(false)}
                       className="block px-4 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition-colors"
                     >
                       Privacy & Policy
                     </Link>
                     <div className="border-t border-white/5 mt-1 pt-1">
-                      <button 
-                        onClick={handleLogout} 
+                      <button
+                        onClick={handleLogout}
                         className="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
                       >
                         <LogOut className="w-4 h-4" />

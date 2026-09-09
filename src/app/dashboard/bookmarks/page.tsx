@@ -2,11 +2,11 @@
 
 import RoadmapCard from "@/components/RoadmapCard";
 import { useProgress } from "@/hooks/useProgress";
-import { roadmapData } from "@/data/roadmapData";
-import { BookmarkX } from "lucide-react";
+import { BookmarkX, Map } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function BookmarksPage() {
-  const { completedDays, bookmarkedDays, toggleDay, toggleBookmark, isLoaded } = useProgress();
+  const { roadmaps, isLoaded, allBookmarkedDays, allCompletedDays } = useProgress();
 
   if (!isLoaded) return (
     <div className="flex items-center justify-center min-h-[50vh]">
@@ -14,7 +14,20 @@ export default function BookmarksPage() {
     </div>
   );
 
-  const bookmarkedData = roadmapData.filter(day => bookmarkedDays.includes(day.id));
+  // Collect all bookmarked days across all roadmaps
+  const allBookmarks = roadmaps.flatMap(roadmap => {
+    const bookmarkedIds = allBookmarkedDays[roadmap.id] || [];
+    const completedIds = allCompletedDays[roadmap.id] || [];
+    
+    return roadmap.days
+      .filter(day => bookmarkedIds.includes(day.id))
+      .map(day => ({
+        ...day,
+        roadmapId: roadmap.id,
+        roadmapTitle: roadmap.title,
+        isCompleted: completedIds.includes(day.id)
+      }));
+  });
 
   return (
     <div className="space-y-8">
@@ -23,7 +36,7 @@ export default function BookmarksPage() {
         <p className="text-slate-400">Your saved days for quick reference.</p>
       </div>
 
-      {bookmarkedData.length === 0 ? (
+      {allBookmarks.length === 0 ? (
         <div className="bg-slate-800/50 border border-white/10 rounded-3xl p-12 backdrop-blur-sm text-center flex flex-col items-center">
           <div className="bg-slate-700/50 w-20 h-20 rounded-full flex items-center justify-center mb-6">
             <BookmarkX className="w-10 h-10 text-slate-400" />
@@ -35,16 +48,19 @@ export default function BookmarksPage() {
         </div>
       ) : (
         <div className="flex flex-col gap-6 md:gap-8">
-          {bookmarkedData.map((dayData, index) => (
-            <RoadmapCard
-              key={dayData.id}
-              data={dayData}
-              index={index}
-              isCompleted={completedDays.includes(dayData.id)}
-              isBookmarked={true}
-              onToggle={toggleDay}
-              onToggleBookmark={toggleBookmark}
-            />
+          {allBookmarks.map((dayData, index) => (
+            <div key={`${dayData.roadmapId}-${dayData.id}`}>
+              <div className="mb-2 text-xs font-semibold text-slate-500 tracking-wider uppercase flex items-center gap-2">
+                <Map className="w-3 h-3" /> {dayData.roadmapTitle}
+              </div>
+              <RoadmapCard
+                roadmapId={dayData.roadmapId}
+                data={dayData}
+                index={index}
+                isCompleted={dayData.isCompleted}
+                isBookmarked={true}
+              />
+            </div>
           ))}
         </div>
       )}
