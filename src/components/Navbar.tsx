@@ -75,9 +75,11 @@ export default function Navbar() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group shrink-0">
-          <div className="bg-blue-500/20 p-2 rounded-xl group-hover:bg-blue-500/30 transition-colors hidden sm:block">
-            <Map className="w-5 h-5 text-blue-400" />
-          </div>
+          <img 
+            src="/logo.jpg" 
+            alt="MyRoadmap Logo" 
+            className="w-9 h-9 rounded-xl object-cover group-hover:opacity-90 transition-opacity"
+          />
           <span className="font-bold text-base sm:text-lg text-white tracking-tight">
             My<span className="text-blue-400">Roadmap</span>
           </span>

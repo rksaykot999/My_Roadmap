@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "178774239353",
+    "project_id": "my-roadmap-39bd9",
+    "storage_bucket": "my-roadmap-39bd9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178774239353:android:88ff38b69f728247b34ca8",
+        "android_client_info": {
+          "package_name": "com.myroadmap.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "178774239353-9uls5i22olmhceqeej4ehar552hbsind.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myroadmap.app",
+            "certificate_hash": "6947e49a495f135083dd9cf31897beaea6c2ae70"
+          }
+        },
+        {
+          "client_id": "178774239353-lvqjfh4jc4avntqkh62jh6d9hlsb1379.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEaKZRRDyyKc9IdTOXq232Y9aCbeMSrOg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "178774239353-lvqjfh4jc4avntqkh62jh6d9hlsb1379.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
