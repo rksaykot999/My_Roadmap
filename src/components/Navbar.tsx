@@ -146,18 +146,18 @@ export default function Navbar() {
                     </div>
                     
                     <Link 
-                      href="/dashboard/profile" 
-                      onClick={() => setIsDropdownOpen(false)}
-                      className="block px-4 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition-colors"
-                    >
-                      My Profile
-                    </Link>
-                    <Link 
                       href="/dashboard" 
                       onClick={() => setIsDropdownOpen(false)}
                       className="block px-4 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition-colors"
                     >
                       Dashboard
+                    </Link>
+                    <Link 
+                      href="/dashboard/profile" 
+                      onClick={() => setIsDropdownOpen(false)}
+                      className="block px-4 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition-colors"
+                    >
+                      My Profile
                     </Link>
                     <Link 
                       href="/dashboard/settings" 
