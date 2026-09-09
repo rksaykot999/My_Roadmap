@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">MyRoadmap</string>
-    <string name="title_activity_main">MyRoadmap</string>
+    <string name="app_name">My Roadmap</string>
+    <string name="title_activity_main">My Roadmap</string>
     <string name="package_name">com.myroadmap.app</string>
     <string name="custom_url_scheme">com.myroadmap.app</string>
 </resources>

@@ -7,7 +7,9 @@ import { useEffect, useState, useRef } from "react";
 import { useProgress } from "@/hooks/useProgress";
 import { motion, AnimatePresence } from "framer-motion";
 import { auth, googleProvider } from "@/lib/firebase";
-import { signInWithPopup, signOut, User } from "firebase/auth";
+import { signInWithPopup, signOut, User, signInWithCredential, GoogleAuthProvider } from "firebase/auth";
+import { Capacitor } from "@capacitor/core";
+import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -45,7 +47,17 @@ export default function Navbar() {
 
   const handleLogin = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      if (Capacitor.isNativePlatform()) {
+        // Native Android/iOS Flow
+        const result = await FirebaseAuthentication.signInWithGoogle();
+        if (result.credential?.idToken) {
+          const credential = GoogleAuthProvider.credential(result.credential.idToken);
+          await signInWithCredential(auth, credential);
+        }
+      } else {
+        // Web Flow
+        await signInWithPopup(auth, googleProvider);
+      }
     } catch (error) {
       console.error("Error signing in with Google:", error);
     }
