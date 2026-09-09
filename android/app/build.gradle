@@ -40,6 +40,10 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
     implementation project(':capacitor-cordova-android-plugins')
+    // Firebase
+    implementation platform("com.google.firebase:firebase-bom:$firebaseBoMVersion")
+    implementation "com.google.firebase:firebase-auth"
+    implementation "com.google.android.gms:play-services-auth:$googlePlayServicesAuthVersion"
 }
 
 apply from: 'capacitor.build.gradle'

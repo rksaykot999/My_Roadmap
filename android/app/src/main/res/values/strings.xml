@@ -4,4 +4,5 @@
     <string name="title_activity_main">My Roadmap</string>
     <string name="package_name">com.myroadmap.app</string>
     <string name="custom_url_scheme">com.myroadmap.app</string>
+    <string name="server_client_id">178774239353-lvqjfh4jc4avntqkh62jh6d9hlsb1379.apps.googleusercontent.com</string>
 </resources>
