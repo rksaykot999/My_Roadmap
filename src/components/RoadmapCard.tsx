@@ -131,7 +131,7 @@ export default function RoadmapCard({ roadmapId, data, isCompleted, isBookmarked
               className="group focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-full p-2"
               title="Edit Day"
             >
-              <Pencil className="w-4 h-4 sm:w-5 sm:h-5 text-slate-500 transition-colors group-hover:text-amber-400 opacity-0 group-hover/card:opacity-100 sm:opacity-100" />
+              <Pencil className="w-4 h-4 sm:w-5 sm:h-5 text-slate-500 transition-colors group-hover:text-amber-400" />
             </button>
           )}
           <button
@@ -142,7 +142,7 @@ export default function RoadmapCard({ roadmapId, data, isCompleted, isBookmarked
             {isBookmarked ? (
               <BookmarkCheck className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400 transition-transform group-hover:scale-110 drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
             ) : (
-              <Bookmark className="w-5 h-5 sm:w-6 sm:h-6 text-slate-500 transition-colors group-hover:text-blue-400 opacity-0 group-hover/card:opacity-100 sm:opacity-100" />
+              <Bookmark className="w-5 h-5 sm:w-6 sm:h-6 text-slate-500 transition-colors group-hover:text-blue-400" />
             )}
           </button>
 
