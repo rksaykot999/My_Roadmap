@@ -51,10 +51,10 @@ export default function RoadmapCard({ roadmapId, data, isCompleted, isBookmarked
     updateDay(roadmapId, data.id, {
       title: editForm.title,
       sections: editForm.sections,
-      frontend: undefined,
-      backend: undefined,
-      aiTools: undefined,
-      deliverable: undefined
+      frontend: "",
+      backend: "",
+      aiTools: "",
+      deliverable: ""
     });
     setIsEditing(false);
   };
